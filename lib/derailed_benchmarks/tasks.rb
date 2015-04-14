@@ -58,6 +58,7 @@ namespace :perf do
 
     TEST_COUNT  = (ENV['TEST_COUNT'] || ENV['CNT'] || 1_000).to_i
     PATH_TO_HIT = ENV["PATH_TO_HIT"] || ENV['ENDPOINT'] || "/"
+    APP_HOST = ENV["APP_HOST"] || "localhost"
     puts "Endpoint: #{ PATH_TO_HIT.inspect }"
 
     if server = ENV["USE_SERVER"]
@@ -70,7 +71,7 @@ namespace :perf do
       sleep 1
 
       def call_app
-        response = `curl http://localhost:#{@port}#{PATH_TO_HIT} -s`
+        response = `curl http://#{APP_HOST}:#{@port}#{PATH_TO_HIT} -s`
         raise "Bad request: #{ response }" unless $?.success?
       end
     else
